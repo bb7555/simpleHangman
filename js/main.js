@@ -6,101 +6,106 @@ var game = new Object();
 //	This creates our hangman object and its methods
 /////
 
-var hangman = new Object();
-hangman.counter = 0;
-hangman.miss = function()
+function Hangman()
 {
-	hangman.counter++;
-	
-	//move the avatar along in death progression
-		pixelSpritePosition = -1*Math.abs(400*hangman.counter);
-		$("#gallows").css('background-position','0px '+pixelSpritePosition+'px');
-	
-	//game over	
-	if(hangman.counter === 5)
+	this.counter = 0;
+	this.miss = function()
 	{
-		alert('game over! try again!');
-		location.reload();
+		this.counter++;
+		
+		//move the avatar along in death progression
+			pixelSpritePosition = -1*Math.abs(400*hangman.counter);
+			$("#gallows").css('background-position','0px '+pixelSpritePosition+'px');
+		
+		//game over	
+		if(this.counter === 5)
+		{
+			alert('game over! try again!');
+			location.reload();
+		}
 	}
 }
+
+var hangman = new Hangman();
 
 /////
 //	This creates our word object and its methods
 /////
 
-var word = new Object();
-
-//you may add more words to the array, or fill from external data-source
-word.dictionary = ['cat', 'dog', 'mouse', 'deer', 'puppy', 'poodle', 'zebra'];
-
-word.letterHolder = [];
-word.letterUsed = [];
-word.letterUsedBool = false;
-
-
-//method to test is current guess has already been attmpted as well as add used letters to our test array
-word.letterUsedTest = function(currentLetter)
+function Word()
 {
-	if(word.letterUsed.length===0)
+	//you may add more words to the array, or fill from external data-source
+	this.dictionary = ['cat', 'dog', 'mouse', 'deer', 'puppy', 'poodle', 'zebra'];
+
+	this.letterHolder = [];
+	this.letterUsed = [];
+	this.letterUsedBool = false;
+
+
+	//method to test is current guess has already been attmpted as well as add used letters to our test array
+	this.letterUsedTest = function(currentLetter)
 	{
-		word.letterUsed.push(currentLetter);
-	}else{
-	
-		for(var i=0; i < word.letterUsed.length;i++)
+		if(this.letterUsed.length===0)
 		{
-			if(word.letterUsed[i] === currentLetter)
+			this.letterUsed.push(currentLetter);
+		}else{
+		
+			for(var i=0; i < this.letterUsed.length;i++)
 			{
-				word.letterUsedBool = true;
+				if(this.letterUsed[i] === currentLetter)
+				{
+					this.letterUsedBool = true;
+				}
 			}
+			
+			 this.letterUsed.push(currentLetter);
 		}
 		
-		 word.letterUsed.push(currentLetter);
+		return this.letterUsedBool;
+		
 	}
-	
-	return word.letterUsedBool;
-	
-}
 
-word.setUp = function()
-{
-	//pick the word
-	wordIndex=Math.floor((Math.random()*word.dictionary.length));
-	
-	
-	
-	//split the word up into letters in an array
-	word.letterHolder = word.dictionary[wordIndex].split("");
-	
-	for(var i=0; i<word.letterHolder.length; i++)
+	this.setUp = function()
 	{
+		//pick the word
+		wordIndex=Math.floor((Math.random()*this.dictionary.length));
 		
 		
-		$("#wordArea").append('<input readonly type="password" value="'+word.letterHolder[i]+'" />');
+		
+		//split the word up into letters in an array
+		this.letterHolder = this.dictionary[wordIndex].split("");
+		
+		for(var i=0; i<this.letterHolder.length; i++)
+		{
+			
+			
+			$("#wordArea").append('<input readonly type="password" value="'+this.letterHolder[i]+'" />');
+		}
+		
+		return this.letterHolder;
+		
 	}
-	
-	return word.letterHolder;
-	
-}
 
-word.solved = function()
-{
-	//test if the word is solved yet or not and the game is a win for the player
-	
-	if ( $("input[type='password']").length === 0 ) {
+	this.solved = function()
+	{
+		//test if the word is solved yet or not and the game is a win for the player
 		
-		//game win game over
-		
-		alert('you solved it! great job! Try again');
-		location.reload();
+		if ( $("input[type='password']").length === 0 ) {
+			
+			//game win game over
+			
+			alert('you solved it! great job! Try again');
+			location.reload();
+		}
 	}
 }
-
 
 //instantiate all our game objects and event listeners
 game.init = function()
 {
 	
 	//pick the word, set up the DOM, and return our word as letters in an array
+	var word = new Word();
 	word.setUp();
 	
 	
