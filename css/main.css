@@ -301,6 +301,11 @@ textarea {
 
 /* Game Styles */
 
+#wordArea
+{
+	margin:0 auto 0 auto;
+}
+
 #gallows
 {
 	margin:0 auto 0 auto;
