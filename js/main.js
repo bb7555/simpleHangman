@@ -79,7 +79,7 @@ function Word()
 		{
 			
 			
-			$("#wordArea").append('<input readonly type="password" value="'+this.letterHolder[i]+'" />');
+			$("#wordArea").append('<input disabled readonly type="password" value="'+this.letterHolder[i]+'" />');
 		}
 		
 		return this.letterHolder;
