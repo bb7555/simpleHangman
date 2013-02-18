@@ -112,6 +112,8 @@ game.init = function()
 	//event listener
 	$("#guess").click(function(){
 		currentLetter = $("#guessBox").val();
+		//set all entries to lower case
+		currentLetter = currentLetter.toLowerCase();
 		$("#guessBox").val('');
 		
 		word.letterUsedTest(currentLetter);
